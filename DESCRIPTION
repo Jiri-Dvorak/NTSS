@@ -1,0 +1,14 @@
+Package: NTSS
+Type: Package
+Title: Nonparametric tests in spatial statistics
+Version: 0.1.0
+Author: Jiří Dvořák [aut, cre],
+  Tomáš Mrkvička [ctb]
+Maintainer: Jiří Dvořák <dvorak@karlin.mff.cuni.cz>
+Description: Nonparametric test of independence between a pair of spatial objects
+    (random fields, point processes) based on random shifts with torus or variance correction.
+Imports: spatstat, ks
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.2
