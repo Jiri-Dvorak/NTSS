@@ -1,7 +1,8 @@
 #' Random shift test of independence in a bivariate random field
 #'
-#' @description Test of independence between a pair of random fields based on random shifts.
+#' @description Nonparametric test of independence between a pair of random fields based on random shifts.
 #' Either the torus correction or the variance correction can be used, see Mrkvička et al. (2021).
+#' The variance correction is recommended for random fields with nontrivial autocorrelations.
 #'
 #' @details The test statistic can be either the sample covariance or the sample Kendall's or
 #' Pearson's correlation coefficient. The choice of the test statistic is given

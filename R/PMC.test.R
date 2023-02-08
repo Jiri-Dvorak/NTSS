@@ -1,6 +1,6 @@
 #' Random shift test of independence between marks of a point process and a covariate
 #'
-#' @description Test of independence between marks of a point process and a random field
+#' @description Nonparametric test of independence between marks of a point process and a random field
 #' (covariate) based on random shifts, see Dvořák et al. (2022).
 #' Either the torus correction or the variance correction can be used, see Mrkvička et al. (2021).
 #'
@@ -49,10 +49,13 @@
 #' X <- Xun %mark% aux2[Xun]
 #'
 #' aux3 <- attr(rLGCP("exp", mu=0, var=1, scale=0.2, saveLambda=TRUE),"Lambda")
-#' covariate <- eval.im(log(aux))
+#' covariate <- eval.im(log(aux3))
 #'
-#' PMC.test(X=X, covariate=covariate, radius=0.5, correction="torus", type="Kendall", verbose=TRUE)
-#' PMC.test(X=X, covariate=covariate, radius=0.5, correction="variance", type="Kendall", verbose=TRUE)
+#' out1 <- PMC.test(X=X, covariate=covariate, radius=0.5, correction="torus", type="Kendall", verbose=TRUE)
+#' out1
+#'
+#' out2 <- PMC.test(X=X, covariate=covariate, radius=0.5, correction="variance", type="Kendall", verbose=TRUE)
+#' out2
 #'
 #' @export
 #'
@@ -64,9 +67,15 @@ PMC.test <- function(X, covariate, N.shifts=999, radius, correction, type="Kenda
 
     values.simulated <- rep(NA, times=N.shifts+1)
     values.simulated[1] <- switch(type,
-           covariance = cov(covariate[X],X$marks),
-           Pearson    = cor(covariate[X],X$marks,method="pearson"),
-           Kendall    = cor(covariate[X],X$marks,method="kendall"))
+                                  covariance = cov(covariate[X],X$marks),
+                                  Pearson    = cor(covariate[X],X$marks,method="pearson"),
+                                  Kendall    = cor(covariate[X],X$marks,method="kendall"))
+
+    test.stat <- values.simulated[1]
+    names(test.stat) <- "T"
+
+    correct <- "torus"
+    names(correct) <- "correction"
 
     for (k in 1:N.shifts){
       X.shift <- rshift(X, edge="torus", radius=radius)
@@ -122,6 +131,12 @@ PMC.test <- function(X, covariate, N.shifts=999, radius, correction, type="Kenda
     test.rank <- rank(values.std)[1]
     pval <- 2*min(test.rank, N.shifts+1-test.rank)/(N.shifts+1)
 
+    test.stat <- values.std[1]
+    names(test.stat) <- "T_std"
+
+    correct <- "variance"
+    names(correct) <- "correction"
+
     if (verbose){
       cat("Observed value of the test statistic (before variance standardization): ")
       cat(values.simulated[1])
@@ -140,5 +155,19 @@ PMC.test <- function(X, covariate, N.shifts=999, radius, correction, type="Kenda
     }
   }
 
-  return(pval)
+  res.N.shifts <- N.shifts
+  names(res.N.shifts) <- "N.shifts"
+  testname <- "Random shift test of independence between marks and a covariate"
+  alternative <- "two-sided"
+  stat.type <- switch(type,
+                      covariance = "sample covariance",
+                      Pearson    = "Pearson's correlation coefficient",
+                      Kendall    = "Kendall's correlation coefficient")
+
+  result <- structure(list(statistic = test.stat, parameter = list(N.shifts=res.N.shifts,correction=correct,statistic=stat.type),
+                           p.value = pval, method = testname, data.name = paste(substitute(X), "and", substitute(covariate)),
+                           alternative = alternative),
+                      class = "htest")
+
+  return(result)
 }

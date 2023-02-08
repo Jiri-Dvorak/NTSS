@@ -1,6 +1,6 @@
 #' Random shift test of independence between a point process and a covariate
 #'
-#' @description Test of independence between a point process and a random field
+#' @description Nonparametric test of independence between a point process and a random field
 #' (covariate of interest), taking into account the possible effect of nuisance covariates,
 #' see Dvořák and Mrkvička (2022).
 #' The test is based on random shifts. Either the torus correction or the variance
@@ -14,8 +14,11 @@
 #' using this intensity function.
 #'
 #' The residuals can be constructed in a nonparametric way (see Baddeley et al. (2012))
-#' or in a parametric way (using the \code{ppm} function from the \code{spatstat} package,
+#' or in a parametric way (assuming a log-linear form of the intensity function
+#' and using the \code{ppm} function from the \code{spatstat} package,
 #' see Baddeley et al. (2015)). This choice is given by the argument \code{nonparametric}.
+#' The nonparametric residuals are recommended if the log-linear form of the intensity function
+#' is not clearly justified.
 #' Also, different types of residuals can be considered (raw, Pearson or inverse,
 #' see Baddeley et al. (2015)). This choice is given by the argument \code{type}.
 #'

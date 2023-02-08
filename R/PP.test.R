@@ -1,6 +1,6 @@
 #' Random shift test of independence in a bivariate point process
 #'
-#' @description Test of independence between a pair of point processes based on random shifts.
+#' @description Nonparametric test of independence between a pair of point processes based on random shifts.
 #' Either the torus correction or the variance correction can be used (note that the
 #' variance correction is not yet implemented in this package but the corresponding source
 #' codes can be obtained from the authors upon request).
