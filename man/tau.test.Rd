@@ -45,11 +45,15 @@ tau.test(
 The p-value of the random shift test of independence between a point process and a covariate, taking into account possible effects of nuisance covariates.
 }
 \description{
-Test of independence between a point process and a random field
+Nonparametric test of independence between a point process and a random field
 (covariate of interest), taking into account the possible effect of nuisance covariates,
 see Dvořák and Mrkvička (2022).
 The test is based on random shifts. Either the torus correction or the variance
 correction can be used, see Mrkvička et al. (2021).
+This test has lower power than the test based on the covariate-weighted residuals
+(see the function \code{CWR.test}), but its test statistic can be used to quantify
+the partial correlation between the point process and the covariate of interest, taking into
+account the possible effect of nuisance covariates.
 }
 \details{
 The test statistic is the Kendall's correlation coefficient between the covariate of interest

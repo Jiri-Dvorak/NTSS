@@ -33,7 +33,7 @@ PMC.test(
 The p-value of the random shift test of independence between marks of a point process and a covariate.
 }
 \description{
-Test of independence between marks of a point process and a random field
+Nonparametric test of independence between marks of a point process and a random field
 (covariate) based on random shifts, see Dvořák et al. (2022).
 Either the torus correction or the variance correction can be used, see Mrkvička et al. (2021).
 }
@@ -68,10 +68,13 @@ aux2 <- eval.im(log(aux1))
 X <- Xun \%mark\% aux2[Xun]
 
 aux3 <- attr(rLGCP("exp", mu=0, var=1, scale=0.2, saveLambda=TRUE),"Lambda")
-covariate <- eval.im(log(aux))
+covariate <- eval.im(log(aux3))
 
-PMC.test(X=X, covariate=covariate, radius=0.5, correction="torus", type="Kendall", verbose=TRUE)
-PMC.test(X=X, covariate=covariate, radius=0.5, correction="variance", type="Kendall", verbose=TRUE)
+out1 <- PMC.test(X=X, covariate=covariate, radius=0.5, correction="torus", type="Kendall", verbose=TRUE)
+out1
+
+out2 <- PMC.test(X=X, covariate=covariate, radius=0.5, correction="variance", type="Kendall", verbose=TRUE)
+out2
 
 }
 \references{

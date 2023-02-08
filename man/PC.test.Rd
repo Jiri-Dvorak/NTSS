@@ -23,7 +23,7 @@ PC.test(X, covariate, N.shifts = 999, radius, correction, verbose = FALSE)
 The p-value of the random shift test of independence between a point process and a covariate.
 }
 \description{
-Test of independence between a point process and a random field (covariate) based on random shifts, see Dvo??k et al. (2022).
+Nonparametric test of independence between a point process and a random field (covariate) based on random shifts, see Dvořák et al. (2022).
 Either the torus correction or the variance correction can be used, see Mrkvička et al. (2021).
 }
 \details{
@@ -47,8 +47,8 @@ X <- rLGCP("exp", mu = 4.5, var = 1, scale = 0.2, saveLambda = FALSE)
 aux <- attr(rLGCP("exp", mu=0, var=1, scale=0.2, saveLambda=TRUE),"Lambda")
 covariate <- eval.im(log(aux))
 
-PC.test(X=Xun, covariate=covariate, radius=0.5, correction="torus", verbose=TRUE)
-PC.test(X=Xun, covariate=covariate, radius=0.5, correction="variance", verbose=TRUE)
+PC.test(X=X, covariate=covariate, radius=0.5, correction="torus", verbose=TRUE)
+PC.test(X=X, covariate=covariate, radius=0.5, correction="variance", verbose=TRUE)
 
 }
 \references{

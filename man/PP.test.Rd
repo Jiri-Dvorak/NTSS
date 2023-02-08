@@ -23,7 +23,7 @@ PP.test(X, Y, N.shifts = 999, radius, correction, verbose = FALSE)
 The p-value of the random shift test of independence between a pair of point processes.
 }
 \description{
-Test of independence between a pair of point processes based on random shifts.
+Nonparametric test of independence between a pair of point processes based on random shifts.
 Either the torus correction or the variance correction can be used (note that the
 variance correction is not yet implemented in this package but the corresponding source
 codes can be obtained from the authors upon request).

@@ -36,8 +36,9 @@ CC.test(
 The p-value of the random shift test of independence between a pair of random fields.
 }
 \description{
-Test of independence between a pair of random fields based on random shifts.
+Nonparametric test of independence between a pair of random fields based on random shifts.
 Either the torus correction or the variance correction can be used, see Mrkvička et al. (2021).
+The variance correction is recommended for random fields with nontrivial autocorrelations.
 }
 \details{
 The test statistic can be either the sample covariance or the sample Kendall's or
