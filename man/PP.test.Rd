@@ -49,7 +49,9 @@ set.seed(123)
 X <- rLGCP("exp", mu = 4.5, var = 1, scale = 0.2, saveLambda = FALSE)
 Y <- rLGCP("exp", mu = 4.5, var = 1, scale = 0.2, saveLambda = FALSE)
 
-PP.test(X=X, Y=Y, N.shifts=999, radius=0.5, correction="torus", verbose=TRUE)
+out <- PP.test(X=X, Y=Y, N.shifts=999, radius=0.5, correction="torus", verbose=TRUE)
+out
+
 }
 \references{
 T. Mrkvička, J. Dvořák, J.A. González, J. Mateu (2021): Revisiting the random shift approach for testing in spatial statistics. Spatial Statistics 42, 100430.

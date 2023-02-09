@@ -47,8 +47,11 @@ X <- rLGCP("exp", mu = 4.5, var = 1, scale = 0.2, saveLambda = FALSE)
 aux <- attr(rLGCP("exp", mu=0, var=1, scale=0.2, saveLambda=TRUE),"Lambda")
 covariate <- eval.im(log(aux))
 
-PC.test(X=X, covariate=covariate, radius=0.5, correction="torus", verbose=TRUE)
-PC.test(X=X, covariate=covariate, radius=0.5, correction="variance", verbose=TRUE)
+out1 <- PC.test(X=X, covariate=covariate, radius=0.5, correction="torus", verbose=TRUE)
+out1
+
+out2 <- PC.test(X=X, covariate=covariate, radius=0.5, correction="variance", verbose=TRUE)
+out2
 
 }
 \references{

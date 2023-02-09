@@ -83,6 +83,7 @@ For details on binary masks see the help for the \code{spatstat} function \code{
 \examples{
 
 library(spatstat)
+library(ks)
 
 # the point pattern
 X <- bei
@@ -95,10 +96,12 @@ plot(elevation)
 plot(slope)
 
 # test with no nuisance covariates, with only 99 shifts to speed up the computation
-CWR.test(X, covariate.interest=elevation, covariates.nuisance=NULL, N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+out1 <- CWR.test(X, covariate.interest=elevation, covariates.nuisance=NULL, N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+out1
 
 # test with one nuisance covariate, with only 99 shifts to speed up the computation
-CWR.test(X, covariate.interest=elevation, covariates.nuisance=list(slope=slope), N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+out2 <- CWR.test(X, covariate.interest=elevation, covariates.nuisance=list(slope=slope), N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+out2
 
 }
 \references{

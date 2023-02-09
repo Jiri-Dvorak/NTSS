@@ -68,8 +68,11 @@ covariateA <- eval.im(log(auxA))
 covariateB <- eval.im(log(auxB))
 test.points <- runifpoint(100)
 
-CC.test(covariateA=covariateA, covariateB=covariateB, test.points=test.points, N.shifts=999, radius=0.5, type="Kendall", correction="torus", verbose=TRUE)
-CC.test(covariateA=covariateA, covariateB=covariateB, test.points=test.points, N.shifts=999, radius=0.5, type="Kendall", correction="variance", verbose=TRUE)
+out1 <- CC.test(covariateA=covariateA, covariateB=covariateB, test.points=test.points, N.shifts=999, radius=0.5, type="Kendall", correction="torus", verbose=TRUE)
+out1
+
+out2 <- CC.test(covariateA=covariateA, covariateB=covariateB, test.points=test.points, N.shifts=999, radius=0.5, type="Kendall", correction="variance", verbose=TRUE)
+out2
 
 }
 \references{
