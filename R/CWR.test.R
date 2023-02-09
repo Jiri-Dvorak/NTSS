@@ -61,6 +61,7 @@
 #' @examples
 #'
 #' library(spatstat)
+#' library(ks)
 #'
 #' # the point pattern
 #' X <- bei
@@ -73,10 +74,12 @@
 #' plot(slope)
 #'
 #' # test with no nuisance covariates, with only 99 shifts to speed up the computation
-#' CWR.test(X, covariate.interest=elevation, covariates.nuisance=NULL, N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+#' out1 <- CWR.test(X, covariate.interest=elevation, covariates.nuisance=NULL, N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+#' out1
 #'
 #' # test with one nuisance covariate, with only 99 shifts to speed up the computation
-#' CWR.test(X, covariate.interest=elevation, covariates.nuisance=list(slope=slope), N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+#' out2 <- CWR.test(X, covariate.interest=elevation, covariates.nuisance=list(slope=slope), N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+#' out2
 #'
 #' @export
 #'
@@ -119,6 +122,12 @@ CWR.test <- function(X, covariate.interest, covariates.nuisance, N.shifts=999, r
                                   raw     = sum(covariate.interest[X]) - summary(covariate.interest*est.rho)$integral,
                                   Pearson = sum(covariate.interest[X]/sqrt(est.rho[X])) - summary(covariate.interest*sqrt(est.rho))$integral,
                                   inverse = sum(covariate.interest[X]/est.rho[X]) - summary(covariate.interest)$integral)
+
+    test.stat <- values.simulated[1]
+    names(test.stat) <- "CWR"
+
+    correct <- "torus"
+    names(correct) <- "correction"
 
     for (k in 1:N.shifts){
       jump <- runifdisc(1, radius = radius)
@@ -189,6 +198,12 @@ CWR.test <- function(X, covariate.interest, covariates.nuisance, N.shifts=999, r
     test.rank <- rank(values.std)[1]
     pval <- 2*min(test.rank, N.shifts+1-test.rank)/(N.shifts+1)
 
+    test.stat <- values.std[1]
+    names(test.stat) <- "CWR_std"
+
+    correct <- "variance"
+    names(correct) <- "correction"
+
     if (verbose){
       cat("Observed value of the test statistic (before variance standardization): ")
       cat(values.simulated[1])
@@ -207,7 +222,24 @@ CWR.test <- function(X, covariate.interest, covariates.nuisance, N.shifts=999, r
     }
   }
 
-  return(pval)
+  res.N.shifts <- N.shifts
+  names(res.N.shifts) <- "N.shifts"
+  testname <- "Random shift test of independence between a point process and a covariate, with nuisance covariates"
+  alternative <- "two-sided"
+  ress <- switch(type,
+                      raw = "raw",
+                      Pearson    = "Pearson's",
+                      inverse    = "inverse")
+
+  # Note: is there a reasonable way how to include the name of the list of nuisance covariates, too?
+  dn <- paste(substitute(X), "and", substitute(covariate.interest))
+
+  result <- structure(list(statistic = test.stat, parameter = list(N.shifts=res.N.shifts,correction=correct,residuals=ress),
+                           p.value = pval, method = testname, data.name = dn,
+                           alternative = alternative),
+                      class = "htest")
+
+  return(result)
 }
 
 

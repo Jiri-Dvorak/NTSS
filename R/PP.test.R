@@ -38,8 +38,9 @@
 #' X <- rLGCP("exp", mu = 4.5, var = 1, scale = 0.2, saveLambda = FALSE)
 #' Y <- rLGCP("exp", mu = 4.5, var = 1, scale = 0.2, saveLambda = FALSE)
 #'
-#' PP.test(X=X, Y=Y, N.shifts=999, radius=0.5, correction="torus", verbose=TRUE)
-
+#' out <- PP.test(X=X, Y=Y, N.shifts=999, radius=0.5, correction="torus", verbose=TRUE)
+#' out
+#'
 #' @export
 #'
 PP.test <- function(X, Y, N.shifts=999, radius, correction, verbose=FALSE){
@@ -55,6 +56,12 @@ PP.test <- function(X, Y, N.shifts=999, radius, correction, verbose=FALSE){
     values.simulated <- rep(NA, times=N.shifts+1)
     fun <- Gcross(Z, correction	=c("km"))
     values.simulated[1] <- stieltjes(function(x){x}, fun)$km
+
+    test.stat <- values.simulated[1]
+    names(test.stat) <- "EG_12"
+
+    correct <- "torus"
+    names(correct) <- "correction"
 
     for (k in 1:N.shifts){
 
@@ -89,5 +96,15 @@ PP.test <- function(X, Y, N.shifts=999, radius, correction, verbose=FALSE){
     return(NULL)
   }
 
-  return(pval)
+  res.N.shifts <- N.shifts
+  names(res.N.shifts) <- "N.shifts"
+  testname <- "Random shift test of independence between a pair of point processes"
+  alternative <- "two-sided"
+
+  result <- structure(list(statistic = test.stat, parameter = list(N.shifts=res.N.shifts,correction=correct),
+                           p.value = pval, method = testname, data.name = paste(substitute(X), "and", substitute(Y)),
+                           alternative = alternative),
+                      class = "htest")
+
+  return(result)
 }

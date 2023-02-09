@@ -6,9 +6,10 @@
 #' The test is based on random shifts. Either the torus correction or the variance
 #' correction can be used, see Mrkvička et al. (2021).
 #' This test has lower power than the test based on the covariate-weighted residuals
-#' (see the function \code{CWR.test}), but its test statistic can be used to quantify
+#' (see the function \code{CWR.test}), but it is still included for the sake of completeness.
+#' Also, the test statistic of \code{tau.test} can be used to quantify
 #' the partial correlation between the point process and the covariate of interest, taking into
-#' account the possible effect of nuisance covariates.
+#' account the possible effect of nuisance covariates, see also the function \code{tau.est}.
 #'
 #' @details The test statistic is the Kendall's correlation coefficient between the covariate of interest
 #' and the smoothed residual field, sampled at a given number of test points
@@ -26,8 +27,7 @@
 #' The residuals can be constructed in a nonparametric way (see Baddeley et al. (2012))
 #' or in a parametric way (using the \code{ppm} function from the \code{spatstat} package,
 #' see Baddeley et al. (2015)). This choice is given by the argument \code{nonparametric}.
-#' Also, different types of residuals can be considered (raw, Pearson or inverse,
-#' see Baddeley et al. (2015)). This choice is given by the argument \code{type}.
+#' The raw residuals are considered here.
 #'
 #' The observed point pattern should be supplied using the argument \code{X}.
 #' The realization of the covariate of interest should be supplied using
@@ -69,6 +69,7 @@
 #' @examples
 #'
 #' library(spatstat)
+#' library(ks)
 #'
 #' # the point pattern
 #' X <- bei
@@ -84,10 +85,12 @@
 #' bws <- seq(from=12.5, to=100, by=12.5)
 #'
 #' # test with no nuisance covariates, with only 99 shifts to speed up the computation
-#' tau.test(X, covariate.interest=elevation, covariates.nuisance=NULL, bws=bws, N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+#' out1 <- tau.test(X, covariate.interest=elevation, covariates.nuisance=NULL, bws=bws, N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+#' out1
 #'
 #' # test with one nuisance covariate, with only 99 shifts to speed up the computation
-#' tau.test(X, covariate.interest=elevation, covariates.nuisance=list(slope=slope), bws=bws, N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+#' out2 <- tau.test(X, covariate.interest=elevation, covariates.nuisance=list(slope=slope), bws=bws, N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+#' out2
 #'
 #' @export
 #'
@@ -207,6 +210,12 @@ tau.test <- function(X, covariate.interest, covariates.nuisance, N.shifts=999, r
     values.simulated <- rep(NA, times=N.shifts+1)
     values.simulated[1] <- cor(srf[test.points],covariate.interest[test.points],method="kendall")
 
+    test.stat <- values.simulated[1]
+    names(test.stat) <- "tau"
+
+    correct <- "torus"
+    names(correct) <- "correction"
+
     for (k in 1:N.shifts){
       test.points.shift <- rshift(test.points, edge="torus", radius=radius)
       values.simulated[k+1] <- cor(srf[test.points.shift],covariate.interest[test.points.shift],method="kendall")
@@ -258,6 +267,12 @@ tau.test <- function(X, covariate.interest, covariates.nuisance, N.shifts=999, r
     test.rank <- rank(values.std)[1]
     pval <- 2*min(test.rank, N.shifts+1-test.rank)/(N.shifts+1)
 
+    test.stat <- values.std[1]
+    names(test.stat) <- "tau_std"
+
+    correct <- "variance"
+    names(correct) <- "correction"
+
     if (verbose){
       cat("Observed value of the test statistic (after variance standardization): ")
       cat(values.std[1])
@@ -274,5 +289,20 @@ tau.test <- function(X, covariate.interest, covariates.nuisance, N.shifts=999, r
 
   }
 
-  return(pval)
+  res.N.shifts <- N.shifts
+  names(res.N.shifts) <- "N.shifts"
+  bw.value <- bw
+  names(bw.value) <- "bandwidth"
+  testname <- "Random shift test of independence between a point process and a covariate, with nuisance covariates"
+  alternative <- "two-sided"
+
+  # Note: is there a reasonable way how to include the name of the list of nuisance covariates, too?
+  dn <- paste(substitute(X), "and", substitute(covariate.interest))
+
+  result <- structure(list(statistic = test.stat, parameter = list(N.shifts=res.N.shifts,correction=correct,bandwidth=bw.value),
+                           p.value = pval, method = testname, data.name = dn,
+                           alternative = alternative),
+                      class = "htest")
+
+  return(result)
 }

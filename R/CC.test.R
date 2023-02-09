@@ -46,8 +46,11 @@
 #' covariateB <- eval.im(log(auxB))
 #' test.points <- runifpoint(100)
 #'
-#' CC.test(covariateA=covariateA, covariateB=covariateB, test.points=test.points, N.shifts=999, radius=0.5, type="Kendall", correction="torus", verbose=TRUE)
-#' CC.test(covariateA=covariateA, covariateB=covariateB, test.points=test.points, N.shifts=999, radius=0.5, type="Kendall", correction="variance", verbose=TRUE)
+#' out1 <- CC.test(covariateA=covariateA, covariateB=covariateB, test.points=test.points, N.shifts=999, radius=0.5, type="Kendall", correction="torus", verbose=TRUE)
+#' out1
+#'
+#' out2 <- CC.test(covariateA=covariateA, covariateB=covariateB, test.points=test.points, N.shifts=999, radius=0.5, type="Kendall", correction="variance", verbose=TRUE)
+#' out2
 #'
 #' @export
 CC.test <- function(covariateA, covariateB, test.points, N.shifts=999, radius, correction, type="Kendall", verbose=FALSE){
@@ -61,6 +64,12 @@ CC.test <- function(covariateA, covariateB, test.points, N.shifts=999, radius, c
                                   covariance = cov(covariateA[test.points],covariateB[test.points]),
                                   Pearson    = cor(covariateA[test.points],covariateB[test.points],method="pearson"),
                                   Kendall    = cor(covariateA[test.points],covariateB[test.points],method="kendall"))
+
+    test.stat <- values.simulated[1]
+    names(test.stat) <- "T"
+
+    correct <- "torus"
+    names(correct) <- "correction"
 
     for (k in 1:N.shifts){
       test.points.shift <- rshift(test.points, edge="torus", radius=radius)
@@ -119,6 +128,12 @@ CC.test <- function(covariateA, covariateB, test.points, N.shifts=999, radius, c
     test.rank <- rank(values.std)[1]
     pval <- 2*min(test.rank, N.shifts+1-test.rank)/(N.shifts+1)
 
+    test.stat <- values.std[1]
+    names(test.stat) <- "T_std"
+
+    correct <- "variance"
+    names(correct) <- "correction"
+
     if (verbose){
       cat("Observed value of the test statistic (before variance standardization): ")
       cat(values.simulated[1])
@@ -137,5 +152,19 @@ CC.test <- function(covariateA, covariateB, test.points, N.shifts=999, radius, c
     }
   }
 
-  return(pval)
+  res.N.shifts <- N.shifts
+  names(res.N.shifts) <- "N.shifts"
+  testname <- "Random shift test of independence between a pair of random fields (covariates)"
+  alternative <- "two-sided"
+  stat.type <- switch(type,
+                      covariance = "sample covariance",
+                      Pearson    = "Pearson's correlation coefficient",
+                      Kendall    = "Kendall's correlation coefficient")
+
+  result <- structure(list(statistic = test.stat, parameter = list(N.shifts=res.N.shifts,correction=correct,statistic=stat.type),
+                           p.value = pval, method = testname, data.name = paste(substitute(covariateA), "and", substitute(covariateB)),
+                           alternative = alternative),
+                      class = "htest")
+
+  return(result)
 }

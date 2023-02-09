@@ -37,8 +37,11 @@
 #' aux <- attr(rLGCP("exp", mu=0, var=1, scale=0.2, saveLambda=TRUE),"Lambda")
 #' covariate <- eval.im(log(aux))
 #'
-#' PC.test(X=X, covariate=covariate, radius=0.5, correction="torus", verbose=TRUE)
-#' PC.test(X=X, covariate=covariate, radius=0.5, correction="variance", verbose=TRUE)
+#' out1 <- PC.test(X=X, covariate=covariate, radius=0.5, correction="torus", verbose=TRUE)
+#' out1
+#'
+#' out2 <- PC.test(X=X, covariate=covariate, radius=0.5, correction="variance", verbose=TRUE)
+#' out2
 #'
 #' @export
 #'
@@ -50,6 +53,12 @@ PC.test <- function(X, covariate, N.shifts=999, radius, correction, verbose=FALS
 
     values.simulated <- rep(NA, times=N.shifts+1)
     values.simulated[1] <-  mean(covariate[X])
+
+    test.stat <- values.simulated[1]
+    names(test.stat) <- "mean"
+
+    correct <- "torus"
+    names(correct) <- "correction"
 
     for (k in 1:N.shifts){
       X.shift <- rshift(X, edge="torus", radius=radius)
@@ -97,6 +106,12 @@ PC.test <- function(X, covariate, N.shifts=999, radius, correction, verbose=FALS
     test.rank <- rank(values.std)[1]
     pval <- 2*min(test.rank, N.shifts+1-test.rank)/(N.shifts+1)
 
+    test.stat <- values.std[1]
+    names(test.stat) <- "mean_std"
+
+    correct <- "variance"
+    names(correct) <- "correction"
+
     if (verbose){
       cat("Observed value of the test statistic (before variance standardization): ")
       cat(values.simulated[1])
@@ -115,5 +130,15 @@ PC.test <- function(X, covariate, N.shifts=999, radius, correction, verbose=FALS
     }
   }
 
-  return(pval)
+  res.N.shifts <- N.shifts
+  names(res.N.shifts) <- "N.shifts"
+  testname <- "Random shift test of independence between a point process and a covariate"
+  alternative <- "two-sided"
+
+  result <- structure(list(statistic = test.stat, parameter = list(N.shifts=res.N.shifts,correction=correct),
+                           p.value = pval, method = testname, data.name = paste(substitute(X), "and", substitute(covariate)),
+                           alternative = alternative),
+                      class = "htest")
+
+  return(result)
 }
