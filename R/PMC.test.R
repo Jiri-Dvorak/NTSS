@@ -12,6 +12,12 @@
 #' test can also be viewed as a test of independence between a marked point process
 #' and a covariate.
 #'
+#' The torus correction can be applied for rectangular windows. On the other hand,
+#' the variance correction is applicable both for rectangular and for irregular windows.
+#' The choice of the correction is given by the argument \code{correction}.
+#' Based on the simulation studies in Dvořák et al. (2022),
+#' the variance correction is recommended since it does not exhibit the liberality of the torus correction.
+#'
 #' The choice of the test statistic is given
 #' by the argument \code{type}. The observed marked point pattern should be supplied using the
 #' argument \code{X}, the realization of the covariate should be supplied using

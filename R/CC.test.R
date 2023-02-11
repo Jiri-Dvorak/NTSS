@@ -8,6 +8,12 @@
 #' Pearson's correlation coefficient. The choice of the test statistic is given
 #' by the argument \code{type}.
 #'
+#' The torus correction can be applied for rectangular windows. On the other hand,
+#' the variance correction is applicable both for rectangular and for irregular windows.
+#' The choice of the correction is given
+#' by the argument \code{correction}. Based on the simulation studies in Mrkvička et al. (2021),
+#' the variance correction is recommended for random fields with nontrivial autocorrelations.
+#'
 #' The two realizations of the random fields (defined on the same domain) to be tested
 #' should be supplied in the \code{covariateA, covariateB} arguments
 #' as objects of the class \code{im} as used in the \code{spatstat} package.

@@ -29,6 +29,12 @@
 #' see Baddeley et al. (2015)). This choice is given by the argument \code{nonparametric}.
 #' The raw residuals are considered here.
 #'
+#' The torus correction can be applied for rectangular windows. On the other hand,
+#' the variance correction is applicable both for rectangular and for irregular windows.
+#' The choice of the correction is given by the argument \code{correction}.
+#' Based on the simulation studies in Dvořák and Mrkvička (2022),
+#' the variance correction is recommended since it does not exhibit the liberality of the torus correction.
+#'
 #' The observed point pattern should be supplied using the argument \code{X}.
 #' The realization of the covariate of interest should be supplied using
 #' the argument \code{covariate.interest}. The set of nuisance covariates should
