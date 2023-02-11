@@ -28,7 +28,15 @@ Either the torus correction or the variance correction can be used, see Mrkvičk
 }
 \details{
 The test statistic is the mean covariate value observed at the points of the process, see the paper
-Dvořák et al. (2022). The observed point pattern should be supplied using the
+Dvořák et al. (2022).
+
+The torus correction can be applied for rectangular windows. On the other hand,
+the variance correction is applicable both for rectangular and for irregular windows.
+The choice of the correction is given by the argument \code{correction}.
+Based on the simulation studies in Dvořák et al. (2022),
+the variance correction is recommended since it does not exhibit the liberality of the torus correction.
+
+The observed point pattern should be supplied using the
 argument \code{X}, the realization of the covariate should be supplied using
 the argument \code{covariate}.
 

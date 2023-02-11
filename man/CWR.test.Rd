@@ -65,6 +65,13 @@ is not clearly justified.
 Also, different types of residuals can be considered (raw, Pearson or inverse,
 see Baddeley et al. (2015)). This choice is given by the argument \code{type}.
 
+The torus correction can be applied for rectangular windows. On the other hand,
+the variance correction is applicable both for rectangular and for irregular windows.
+The choice of the correction is given by the argument \code{correction}.
+Based on the simulation studies in Dvořák and Mrkvička (2022),
+the torus and variance corrections perform almost equally well for the CWR test.
+Hence, the torus correction is recommended for its smaller computational cost.
+
 The observed point pattern should be supplied using the argument \code{X}.
 The realization of the covariate of interest should be supplied using
 the argument \code{covariate.interest}. The set of nuisance covariates should
