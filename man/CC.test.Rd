@@ -68,16 +68,17 @@ library(spatstat)
 
 set.seed(123)
 
-auxA <- attr(rLGCP("exp", mu=0, var=1, scale=0.2, saveLambda=TRUE),"Lambda")
-auxB <- attr(rLGCP("exp", mu=0, var=1, scale=0.2, saveLambda=TRUE),"Lambda")
-covariateA <- eval.im(log(auxA))
-covariateB <- eval.im(log(auxB))
-test.points <- runifpoint(100)
+elevation <- bei.extra$elev
+slope <- bei.extra$grad
+plot(elevation)
+plot(slope)
 
-out1 <- CC.test(covariateA=covariateA, covariateB=covariateB, test.points=test.points, N.shifts=999, radius=0.5, type="Kendall", correction="torus", verbose=TRUE)
+test.points <- runifpoint(100, win=bei$window)
+
+out1 <- CC.test(covariateA=elevation, covariateB=slope, test.points=test.points, N.shifts=999, radius=250, type="Kendall", correction="torus", verbose=TRUE)
 out1
 
-out2 <- CC.test(covariateA=covariateA, covariateB=covariateB, test.points=test.points, N.shifts=999, radius=0.5, type="Kendall", correction="variance", verbose=TRUE)
+out2 <- CC.test(covariateA=elevation, covariateB=slope, test.points=test.points, N.shifts=999, radius=250, type="Kendall", correction="variance", verbose=TRUE)
 out2
 
 }

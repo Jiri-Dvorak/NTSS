@@ -51,14 +51,13 @@ library(spatstat)
 
 set.seed(123)
 
-X <- rLGCP("exp", mu = 4.5, var = 1, scale = 0.2, saveLambda = FALSE)
-aux <- attr(rLGCP("exp", mu=0, var=1, scale=0.2, saveLambda=TRUE),"Lambda")
-covariate <- eval.im(log(aux))
+elevation <- bei.extra$elev
+plot(elevation)
 
-out1 <- PC.test(X=X, covariate=covariate, radius=0.5, correction="torus", verbose=TRUE)
+out1 <- PC.test(X=bei, covariate=elevation, radius=250, correction="torus", verbose=TRUE)
 out1
 
-out2 <- PC.test(X=X, covariate=covariate, radius=0.5, correction="variance", verbose=TRUE)
+out2 <- PC.test(X=bei, covariate=elevation, radius=250, correction="variance", verbose=TRUE)
 out2
 
 }

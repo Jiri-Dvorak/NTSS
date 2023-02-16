@@ -46,8 +46,8 @@ library(spatstat)
 
 set.seed(123)
 
-X <- rLGCP("exp", mu = 4.5, var = 1, scale = 0.2, saveLambda = FALSE)
-Y <- rLGCP("exp", mu = 4.5, var = 1, scale = 0.2, saveLambda = FALSE)
+X <- rpoispp(150)
+Y <- rpoispp(150)
 
 out <- PP.test(X=X, Y=Y, N.shifts=999, radius=0.5, correction="torus", verbose=TRUE)
 out
