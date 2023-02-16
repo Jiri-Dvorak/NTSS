@@ -49,18 +49,24 @@
 #'
 #' set.seed(123)
 #'
-#' Xun <- rLGCP("exp", mu = 4.5, var = 1, scale = 0.2, saveLambda = FALSE)
-#' aux1 <- attr(rLGCP("exp", mu=0, var=1, scale=0.2, saveLambda=TRUE),"Lambda")
-#' aux2 <- eval.im(log(aux1))
-#' X <- Xun %mark% aux2[Xun]
+#' elevation <- bei.extra$elev
+#' slope <- bei.extra$grad
+#' plot(elevation)
+#' plot(slope)
 #'
-#' aux3 <- attr(rLGCP("exp", mu=0, var=1, scale=0.2, saveLambda=TRUE),"Lambda")
-#' covariate <- eval.im(log(aux3))
+#' # use only part of the point pattern for this example
+#' Xun <- rthin(bei,0.05)
 #'
-#' out1 <- PMC.test(X=X, covariate=covariate, radius=0.5, correction="torus", type="Kendall", verbose=TRUE)
+#' # use elevation values as marks
+#' X <- Xun %mark% elevation[Xun]
+#'
+#' # use terrain gradient as covariate
+#' covariate <- slope
+#'
+#' out1 <- PMC.test(X=X, covariate=covariate, radius=250, correction="torus", type="Kendall", verbose=TRUE)
 #' out1
 #'
-#' out2 <- PMC.test(X=X, covariate=covariate, radius=0.5, correction="variance", type="Kendall", verbose=TRUE)
+#' out2 <- PMC.test(X=X, covariate=covariate, radius=250, correction="variance", type="Kendall", verbose=TRUE)
 #' out2
 #'
 #' @export
