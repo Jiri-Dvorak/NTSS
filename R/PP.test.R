@@ -38,7 +38,7 @@
 #' X <- rpoispp(150)
 #' Y <- rpoispp(150)
 #'
-#' out <- PP.test(X=X, Y=Y, N.shifts=999, radius=0.5, correction="torus", verbose=TRUE)
+#' out <- PP.test(X=X, Y=Y, N.shifts=499, radius=0.5, correction="torus", verbose=TRUE)
 #' out
 #'
 #' @export

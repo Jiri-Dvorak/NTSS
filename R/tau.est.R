@@ -67,11 +67,13 @@
 #' bws <- seq(from=12.5, to=100, by=12.5)
 #'
 #' # no nuisance covariates
-#' out1 <- tau.est(X, covariate.interest=elevation, covariates.nuisance=NULL, bws=bws, verbose=TRUE)
+#' out1 <- tau.est(X, covariate.interest=elevation, covariates.nuisance=NULL,
+#'                 bws=bws, verbose=TRUE)
 #' out1
 #'
 #' # one nuisance covariate
-#' out2 <- tau.est(X, covariate.interest=elevation, covariates.nuisance=list(slope=slope), bws=bws, verbose=TRUE)
+#' out2 <- tau.est(X, covariate.interest=elevation, covariates.nuisance=list(slope=slope),
+#'                 bws=bws, verbose=TRUE)
 #' out2
 #'
 #' @export
