@@ -75,10 +75,12 @@ plot(slope)
 
 test.points <- runifpoint(100, win=bei$window)
 
-out1 <- CC.test(covariateA=elevation, covariateB=slope, test.points=test.points, N.shifts=999, radius=250, type="Kendall", correction="torus", verbose=TRUE)
+out1 <- CC.test(covariateA=elevation, covariateB=slope, test.points=test.points, N.shifts=999,
+                radius=250, type="Kendall", correction="torus", verbose=TRUE)
 out1
 
-out2 <- CC.test(covariateA=elevation, covariateB=slope, test.points=test.points, N.shifts=999, radius=250, type="Kendall", correction="variance", verbose=TRUE)
+out2 <- CC.test(covariateA=elevation, covariateB=slope, test.points=test.points, N.shifts=999,
+                radius=250, type="Kendall", correction="variance", verbose=TRUE)
 out2
 
 }

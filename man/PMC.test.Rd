@@ -82,10 +82,12 @@ X <- Xun \%mark\% elevation[Xun]
 # use terrain gradient as covariate
 covariate <- slope
 
-out1 <- PMC.test(X=X, covariate=covariate, radius=250, correction="torus", type="Kendall", verbose=TRUE)
+out1 <- PMC.test(X=X, covariate=covariate, radius=250, correction="torus",
+                 type="Kendall", verbose=TRUE)
 out1
 
-out2 <- PMC.test(X=X, covariate=covariate, radius=250, correction="variance", type="Kendall", verbose=TRUE)
+out2 <- PMC.test(X=X, covariate=covariate, radius=250, correction="variance",
+                 type="Kendall", verbose=TRUE)
 out2
 
 }

@@ -115,11 +115,13 @@ plot(slope)
 bws <- seq(from=12.5, to=100, by=12.5)
 
 # test with no nuisance covariates, with only 99 shifts to speed up the computation
-out1 <- tau.test(X, covariate.interest=elevation, covariates.nuisance=NULL, bws=bws, N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+out1 <- tau.test(X, covariate.interest=elevation, covariates.nuisance=NULL,
+                 bws=bws, N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
 out1
 
 # test with one nuisance covariate, with only 99 shifts to speed up the computation
-out2 <- tau.test(X, covariate.interest=elevation, covariates.nuisance=list(slope=slope), bws=bws, N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
+out2 <- tau.test(X, covariate.interest=elevation, covariates.nuisance=list(slope=slope),
+                 bws=bws, N.shifts = 99, verbose=TRUE, correction="torus", radius=250)
 out2
 
 }
