@@ -26,6 +26,10 @@
 #' auxiliary information and plots should be provided.
 #'
 #' @import spatstat
+#' @import spatstat.random
+#' @import spatstat.geom
+#' @import stats
+#' @import graphics
 #'
 #' @param covariateA first random field (object of class \code{im})
 #' @param covariateB second random field (object of class \code{im})

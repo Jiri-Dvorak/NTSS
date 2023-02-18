@@ -29,6 +29,7 @@
 #' auxiliary information and plots should be provided.
 #'
 #' @import spatstat
+#' @import stats
 #'
 #' @param X marked point pattern dataset (object of class \code{ppp})
 #' @param covariate random field (object of class \code{im})

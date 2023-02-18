@@ -17,6 +17,8 @@
 #' auxiliary information and plots should be provided.
 #'
 #' @import spatstat
+#' @import spatstat.explore
+#' @import stats
 #'
 #' @param X first point pattern dataset (object of class \code{ppp})
 #' @param Y second point pattern dataset (object of class \code{ppp})

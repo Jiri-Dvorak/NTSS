@@ -51,6 +51,9 @@
 #' For details on binary masks see the help for the \code{spatstat} function \code{owin}.
 #'
 #' @import spatstat
+#' @import spatstat.explore
+#' @import spatstat.model
+#' @import stats
 #' @import ks
 #'
 #' @param X point pattern dataset (object of class \code{ppp})
