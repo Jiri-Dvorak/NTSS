@@ -84,6 +84,11 @@
 tau.est <- function(X, covariate.interest, covariates.nuisance, bws, n.test.points=1000,
                     nonparametric=TRUE, verbose=FALSE, bw.factor.rhonhat=1){
 
+  if (verbose){
+    oldpar <- par(no.readonly = TRUE)
+    on.exit(par(oldpar))
+  }
+
   ### Generate independent grid of test points
 
   test.points <- runifpoint(n.test.points, win=as.mask(density.ppp(X)))

@@ -110,6 +110,10 @@ tau.test <- function(X, covariate.interest, covariates.nuisance, N.shifts=999, r
 
   if ((correction=="torus") & (!is.rectangle(X$window))){stop("Torus correction only applicable for rectangular windows!")}
 
+  if (verbose){
+    oldpar <- par(no.readonly = TRUE)
+    on.exit(par(oldpar))
+  }
 
   ### Generate independent grid of test points
 

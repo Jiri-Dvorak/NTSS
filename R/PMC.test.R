@@ -76,6 +76,11 @@
 #'
 PMC.test <- function(X, covariate, N.shifts=999, radius, correction, type="Kendall", verbose=FALSE){
 
+  if (verbose){
+    oldpar <- par(no.readonly = TRUE)
+    on.exit(par(oldpar))
+  }
+
   ### PM-C test with torus correction
 
   if (correction=="torus"){

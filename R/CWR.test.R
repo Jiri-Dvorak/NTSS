@@ -97,6 +97,11 @@
 CWR.test <- function(X, covariate.interest, covariates.nuisance, N.shifts=999, radius, correction,
                      type="raw", nonparametric=TRUE, verbose=FALSE, bw.factor.rhonhat=1){
 
+  if (verbose){
+    oldpar <- par(no.readonly = TRUE)
+    on.exit(par(oldpar))
+  }
+
   ### Estimation of intensity function
 
   ncovs <- length(covariates.nuisance)

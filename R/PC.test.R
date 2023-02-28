@@ -55,6 +55,11 @@
 #'
 PC.test <- function(X, covariate, N.shifts=999, radius, correction, verbose=FALSE){
 
+  if (verbose){
+    oldpar <- par(no.readonly = TRUE)
+    on.exit(par(oldpar))
+  }
+
   ### P-C test with torus correction
 
   if (correction=="torus"){

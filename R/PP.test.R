@@ -47,6 +47,11 @@
 #'
 PP.test <- function(X, Y, N.shifts=999, radius, correction, verbose=FALSE){
 
+  if (verbose){
+    oldpar <- par(no.readonly = TRUE)
+    on.exit(par(oldpar))
+  }
+
   # Z ... bivariate point pattern to be tested, with marks "X" and "Y"
   Z <- superimpose(X = X, Y = Y)
 

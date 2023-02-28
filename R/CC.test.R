@@ -68,6 +68,11 @@
 #' @export
 CC.test <- function(covariateA, covariateB, test.points, N.shifts=999, radius, correction, type="Kendall", verbose=FALSE){
 
+  if (verbose){
+    oldpar <- par(no.readonly = TRUE)
+    on.exit(par(oldpar))
+  }
+
   ### C-C test with torus correction
 
   if (correction=="torus"){
