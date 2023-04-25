@@ -42,8 +42,10 @@ variance correction is not yet implemented in this package but the corresponding
 codes can be obtained from the authors upon request).
 }
 \details{
-The test statistic is either the cross K-function or the expectation of the
-cross nearest-neighbor distance, see the paper Mrkvička et al. (2021).
+The test statistic is either the cross K-function K12 or the expectation of the
+cross nearest-neighbor distance ED12, see the paper Mrkvička et al. (2021). It is recommended to use the K12 statistic
+for regular and Poisson processes, while it is recommended to use ED12 for cluster processes due to the potential
+liberality of K12 in this case.
 
 The two observed point patterns to be tested should be supplied using the
 arguments \code{X} and \code{Y}. The shift vectors are generated from the
